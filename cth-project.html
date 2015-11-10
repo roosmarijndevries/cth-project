@@ -1,6 +1,7 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<link href="style-cth-project.css" type="text/css" rel="stylesheet"></link>
 </head>
 <body>
 
@@ -12,67 +13,70 @@
    
    <section>
        <button name = "rotate">Rotate clockwise!</button>
-       <button name = "up">Right way up!</button>
-       <button name = "next">Next image</button>
-</style>
-   </section>
-  
-   <section>
-       <img id="image" src=http://www.widewalls.ch/wp-content/uploads/Jackson-Pollock-12.jpg>
+       <button name = "guess">Right way up!</button>
+       <button name = "next"> Next image!</button>
    </section>
    
- <style>
-     img {
-         width: 500px;
-        margin-left:380px;
-        margin-top:90px;
-     }
-     
-     header {
-         background-color: #000000;
-         font-family:"Lucida Console", Monaco, monospace;
-         color: white;
-     }
-     header h1 {
-         font-size:50px;
-         text-align: center;
-         padding:10px;
-     }
-     header p {
-         font-size: 20px;
-        text-align: center;
-     }
-     button{
-            background-color:#ed8223;
-        	color:#fff;
-        	font-family:'Helvetica Neue',sans-serif;
-        	font-size:18px;
-        	line-height:30px;
-        	border-radius:20px;
-        	-webkit-border-radius:20px;
-        	-moz-border-radius:20px;
-        	border:0;
-        	text-shadow:#C17C3A 0 -1px 0;
-        	width:200px;
-        	height:32px;
-    }
-     Body{
-         background-image:
-         url('http://www.cartoontreasure.com/wallpapers/2014-03/black-and-white-mark-free-desktop-wallpaper-1680x1050.jpg');
-     }
-     
- </style>
- 
- <script>
+  
+   <section>
+       <p id ="image" </p>
+   </section>
+   
+  <script>
      console.log ("Script block has loaded!");
-     
-    $("button").click(
-        function(){
-            console.log("Click event caputured, the button is working!")
-             $("#image").css({transform: "rotate(90deg)"})
-    });
+
+   $("button[name=rotate]").click(
+       function(){
+           console.log("Click event caputured, the button is working!")
+           var angle = $('.images').data('angle') || 90;
+            $('.images').css({'transform': 'rotate(' + angle + 'deg)'});
+            $('.images').data('angle', angle + 90);
+            angle = (angle+0) % 360;
+            console.log(angle);
+            if(angle===0){
+                console.log("it's good now");
+            }
+   });
+   
+   $("button[name=guess]").click(
+       function(){
+           console.log("Click event caputred, the guess button is working!");
+           var angle = $('.images').data('angle') || 0;
+           angle = (angle-90) % 360;
+           console.log(angle);
+           if(angle===0 || angle===-90) {
+               console.log("This is the right way up");
+               alert("Way to go! You're absolutely right!");
+           } else {
+               console.log("Nope");
+               alert("Ai caramba... not quite!");
+           }
+       });
     
-  </script>   
- </script>
+    
+       
+$(function loadImage () { 
+    var myArray = [
+        '<a href="#"><img class="images" src="http://www.widewalls.ch/wp-content/uploads/Jackson-Pollock-12.jpg"/></a>',
+          '<a href="#"><img class="images" src="http://willowcheng.me/wp-content/uploads/2014/11/il_fullxfull.392845879_j4sw.jpg"/></a>',
+           '<a href="#"><img class="images" src="https://theseaofstars.files.wordpress.com/2014/10/windows-live-photo-gallery-wallpaper.jpg"/></a>',
+           '<a href="#"><img class="images" src="http://annex.guggenheim.org/collections/media/902/54.1408_ph_web.jpg"/></a>',
+         '<a href="#"><img class="images" src="http://www.praguepost.cz/pictures/1-20090930-2420-1446-pic.jpg"/></a>'
+        ],
+       counter = 0;
+        document.getElementById("image").innerHTML = (myArray[counter]);
+        console.log(myArray[counter]); 
+        
+ $("button[name=next]").click(
+       function(){
+        counter = (counter + 1) % myArray.length;
+        console.log(myArray[counter]); 
+         document.getElementById("image").innerHTML = (myArray[counter]);
+    });
+});
+
+ </script>   
+</script>
+  
 </body>
 </html>
